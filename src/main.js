@@ -63,16 +63,24 @@ document.querySelector("#check-button").addEventListener("click", async e => {
       method: "POST"
     })
   } catch (e) {
-    document.querySelector("#results").innerHTML=`
-    <div>You need to install an extension to allow your browser to send requests to roblox.</div>
-    <a href="https://chromewebstore.google.com/detail/lfhmikememgdcahcdlaciloancbhjino">Chrome</a>
-    <a href="https://addons.mozilla.org/en-US/firefox/addon/cors-unblock/">Firefox</a>
-    <div>Or you can select one of the available proxies.</div>
-    `
+    if (proxyUrl === "roblox.com") {
+      document.querySelector("#results").innerHTML=`
+      <div>You need to install an extension to allow your browser to send requests to roblox.</div>
+      <a href="https://chromewebstore.google.com/detail/lfhmikememgdcahcdlaciloancbhjino">Chrome</a>
+      <a href="https://addons.mozilla.org/en-US/firefox/addon/cors-unblock/">Firefox</a>
+      <div>Or you can select one of the available proxies.</div>
+      `
+    }
   }
 
   const data = await res.json()
-  userId = data.data[0].id
+  try {
+    userId = data.data[0].id
+  } catch (e) {
+    document.querySelector("#results").innerHTML=`
+      <div>Couldn't find the user.</div>`
+      return
+  }
   let iterations = 0
   for (const entry of Object.entries(gloves)) {
     document.querySelector("#results").innerHTML+=`
