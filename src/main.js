@@ -5,6 +5,11 @@ const gloves = {"2124760254": "Link", "2124760895": "Moon", "2124760928": "buddi
 document.querySelector('#app').innerHTML = `
 <input id="roblox-username", placeholder="roblox username">
 <button id="check-button">check</button>
+<select id="proxy-select">
+  <option selected value="roblox.com">No proxy</option>
+  <option value="roproxy.com">RoProxy</option>
+  <option value="rotunnel.com">RoTunnel</option>
+</select>
 <table id="results">
   <tr>
     <th>Glove</th>
@@ -12,6 +17,25 @@ document.querySelector('#app').innerHTML = `
   </tr>
 </table>
 `
+const fetchWithRetry = async (url, retries = 3, delay = 1000) => {
+    for (let i = 0; i < retries; i++) {
+        try {
+            const response = await fetch(url)
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`)
+            }
+            return await response.json()
+        } catch (error) {
+            if (i < retries - 1) {
+                console.log(`Retrying... (${i + 1})`)
+                await new Promise(res => setTimeout(res, delay))
+            } else {
+                throw error
+            }
+        }
+    }
+};
+
 document.querySelector("#check-button").addEventListener("click", async e => {
   document.querySelector("#results").innerHTML = `
   <tr>
@@ -21,8 +45,9 @@ document.querySelector("#check-button").addEventListener("click", async e => {
   const username = document.querySelector("#roblox-username").value
   let userId
   let res
+  const proxyUrl = document.querySelector("#proxy-select").value
   try {
-    res = await fetch("https://users.roblox.com/v1/usernames/users", {
+    res = await fetch(`https://users.${proxyUrl}/v1/usernames/users`, {
       body: JSON.stringify({
         "usernames": [
           username
@@ -49,10 +74,13 @@ document.querySelector("#check-button").addEventListener("click", async e => {
      <td id="id${entry[0]}">Loading...</td>
     </tr>`
     setTimeout(async () => {
-
-      const response = await fetch(`https://inventory.roblox.com/v1/users/${userId}/items/2/${entry[0]}/is-owned`)
-      const result = await response.json()
       const cell = document.querySelector(`#id${entry[0]}`)
+      let result
+      try {
+        result = await fetchWithRetry(`https://inventory.${proxyUrl}/v1/users/${userId}/items/2/${entry[0]}/is-owned`)
+      } catch (e) {
+        cell.textContent = "Error"
+      }
       if (result === true) {
         cell.textContent = "Owned"
         cell.style.color = 'green'
