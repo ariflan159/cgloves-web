@@ -21,6 +21,23 @@ body {
   font-weight: bold;
 }
 
+#check-button:hover,#proxy-select:hover,#roblox-username:hover {
+  border-color: white;
+}
+#check-button:active {
+  border-color: #00ff00;
+  scale: 0.95;
+}
+#proxy-select:active,#roblox-username:active {
+  border-color: #00ff00;
+}
+#proxy-select:focus-visible,#roblox-username:focus-visible {
+  outline: inherit;
+}
+#roblox-username:focus-visible {
+  border-color: #00ff00;
+}
+
 ::placeholder {
   color: rgb(194, 194, 194);
 }
