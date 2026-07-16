@@ -60,8 +60,10 @@ document.querySelector("#check-button").addEventListener("click", async e => {
   } catch (e) {
     document.querySelector("#results").innerHTML=`
     <div>You need to install an extension to allow your browser to send requests to roblox.</div>
-    <a href="https://chromewebstore.google.com/detail/lfhmikememgdcahcdlaciloancbhjino">Chrome</a> 
-    <a href="https://addons.mozilla.org/en-US/firefox/addon/cors-unblock/">Firefox</a>`
+    <a href="https://chromewebstore.google.com/detail/lfhmikememgdcahcdlaciloancbhjino">Chrome</a>
+    <a href="https://addons.mozilla.org/en-US/firefox/addon/cors-unblock/">Firefox</a>
+    <div>Or you can select one of the available proxies.</div>
+    `
   }
 
   const data = await res.json()
