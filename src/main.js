@@ -10,9 +10,10 @@ document.querySelector('#app').innerHTML = `
   <input id="roblox-username" placeholder="Roblox username">
   <button id="check-button">Check</button>
   <select id="proxy-select">
-    <option selected value="roblox.com">No proxy</option>
-    <option value="roproxy.com">RoProxy</option>
-    <option value="rotunnel.com">RoTunnel</option>
+    <option selected value="https://subdomain.roblox.com">No proxy</option>
+    <option value="https://subdomain.roproxy.com">RoProxy</option>
+    <option value="https://subdomain.rotunnel.com">RoTunnel</option>
+    <option value="https://corsproxy.io/?url=https://subdomain.roblox.com">corsproxy.io</option>
   </select>
 </div>
 <table id="results">
@@ -52,7 +53,7 @@ document.querySelector("#check-button").addEventListener("click", async e => {
   let res
   const proxyUrl = document.querySelector("#proxy-select").value
   try {
-    res = await fetch(`https://users.${proxyUrl}/v1/usernames/users`, {
+    res = await fetch(`${proxyUrl.replace("subdomain", "users")}/v1/usernames/users`, {
       body: JSON.stringify({
         "usernames": [
           username
@@ -72,14 +73,18 @@ document.querySelector("#check-button").addEventListener("click", async e => {
       `
     }
   }
-
+  if (res.status === 429) {
+    alert("Rate limited. Try again later or select a different proxy.")
+    return
+  } else if (!res.ok) {
+    alert("Something went wrong. Try again later or select a different proxy")
+  }
   const data = await res.json()
   try {
     userId = data.data[0].id
   } catch (e) {
-    document.querySelector("#results").innerHTML=`
-      <div>Couldn't find the user.</div>`
-      return
+    alert("Couldn't find the user")
+    return
   }
   let iterations = 0
   for (const entry of Object.entries(gloves)) {
@@ -92,7 +97,7 @@ document.querySelector("#check-button").addEventListener("click", async e => {
       const cell = document.querySelector(`#id${entry[0]}`)
       let result
       try {
-        result = await fetchWithRetry(`https://inventory.${proxyUrl}/v1/users/${userId}/items/2/${entry[0]}/is-owned`)
+        result = await fetchWithRetry(`${proxyUrl.replace("subdomain", "inventory")}/v1/users/${userId}/items/2/${entry[0]}/is-owned`)
       } catch (e) {
         cell.textContent = "Error"
       }
