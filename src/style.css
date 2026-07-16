@@ -40,6 +40,11 @@ table {
   border-radius: 10px;
   border-spacing: 6px;
   margin: auto;
+  color: white;
+}
+a {
+  color: aqua;
+  margin-right: 8px;
 }
 option {
   background-color: black;
