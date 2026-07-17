@@ -1,6 +1,5 @@
 import './style.css'
-
-const gloves = fetch('/gloves', {headers: {Accept: "application/json"}})
+import gloves from './assets/gloves.json'
 
 document.querySelector('#app').innerHTML = `
 <div class="header">
