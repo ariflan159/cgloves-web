@@ -64,7 +64,7 @@ document.querySelector("#check-button").addEventListener("click", async e => {
       method: "POST"
     })
   } catch (e) {
-    if (proxyUrl === "roblox.com") {
+    if (proxyUrl === "https://subdomain.roblox.com") {
       document.querySelector("#results").innerHTML=`
       <div>You need to install an extension to allow your browser to send requests to roblox.</div>
       <a href="https://chromewebstore.google.com/detail/lfhmikememgdcahcdlaciloancbhjino">Chrome</a>
