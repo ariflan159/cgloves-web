@@ -1,5 +1,6 @@
 import './style.css'
-import gloves from './assets/gloves.json'
+
+const gloves = await (await fetch('/cgloves-web/gloves.json')).json()
 
 document.querySelector('#app').innerHTML = `
 <div class="header">
