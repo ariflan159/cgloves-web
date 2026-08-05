@@ -1,8 +1,6 @@
 body {
   background-color: #2c2c2c;
   font-family: arial, sans-serif;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
 }
 
 .cgloves-parameters {
@@ -14,11 +12,12 @@ body {
   margin: 4px;
   padding: 6px;
   border-radius: 7px;
-  background-image: linear-gradient(45deg, rgb(0, 8, 124), rgb(80, 0, 126));
+  background-color: black;
   color: white;
   box-shadow: none;
   border: solid 2px rgb(161, 161, 161);
   font-weight: bold;
+  margin-bottom: 15px;
 }
 
 #check-button:hover,#proxy-select:hover,#roblox-username:hover {
@@ -44,7 +43,7 @@ body {
 
 td, th {
   text-align: center;
-  border: solid 2px #90d6ff;
+  border: solid 2px #969696;
   padding: 8px;
   color: #ffffff;
   border-radius: 10px;
